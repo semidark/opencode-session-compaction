@@ -6,13 +6,14 @@
   "type": "module",
   "exports": {
     ".": "./index.ts",
-    "./tui": "./tui.tsx",
+    "./tui": "./dist/tui.js",
     "./gui-experimental": "./gui-experimental.cjs",
     "./rpc": "./rpc.ts"
   },
-  "files": ["index.ts", "tui.tsx", "rpc.ts", "policy.ts", "gui-experimental.cjs", "tsconfig.json"],
+  "files": ["index.ts", "dist/tui.js", "rpc.ts", "policy.ts", "gui-experimental.cjs", "tsconfig.json"],
   "scripts": {
-    "test": "bun test"
+    "build": "bun run build.ts",
+    "test": "bun run build.ts && bun test"
   },
   "dependencies": {
     "@opencode/plugin": "2.2.5",
