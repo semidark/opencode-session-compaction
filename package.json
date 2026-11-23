@@ -12,8 +12,8 @@
   },
   "files": ["index.ts", "dist/tui.js", "rpc.ts", "policy.ts", "gui-experimental.cjs", "tsconfig.json"],
   "scripts": {
-    "build": "bun run build.ts",
-    "test": "bun run build.ts && bun test"
+    "build:tui": "bun run build.ts",
+    "test": "bun run build:tui && bun test"
   },
   "dependencies": {
     "@opencode/plugin": "2.2.5",

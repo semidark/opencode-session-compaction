@@ -3,6 +3,14 @@ import { mkdtemp, rm } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
 
+test("Git consumers install the committed artifact without dependency preparation", async () => {
+  const manifest = await Bun.file(join(import.meta.dir, "package.json")).json()
+  for (const name of ["build", "prepare", "prepack", "preinstall", "install", "postinstall"]) {
+    expect(manifest.scripts[name]).toBeUndefined()
+  }
+  expect(manifest.exports["./tui"]).toBe("./dist/tui.js")
+})
+
 test("published TUI entry imports and renders without falling back to React", async () => {
   const directory = await mkdtemp(join(tmpdir(), "session-compaction-package-"))
   try {
