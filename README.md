@@ -4,7 +4,7 @@ An experimental OpenCode V2 plugin for per-session compaction modes. It can requ
 
 ## Installation
 
-The original local plugin was tested for loading on OpenCode 2.2.7. **The standalone Git package has not yet been verified:** installation currently fails against the development registry because a required OpenCode SDK dependency is unavailable. Once resolved, add this entry to `plugins` in your global `opencode.json(c)`, preserving existing entries:
+The Git package's server component was verified on OpenCode 2.4.0. Dependency installation succeeds; the packaged TUI entry is tested for import and OpenTUI rendering. Interactive terminal behavior and the real Desktop indicator still need validation. Add this entry to `plugins` in your global `opencode.json(c)`, preserving existing entries:
 
 ```jsonc
 {
@@ -34,6 +34,6 @@ Click the indicator to toggle Short and Long; the override persists for the curr
 
 ## Development
 
-Run `bun install` and `bun test`. The Desktop entry is a standalone CommonJS file using host-provided modules; its RPC contract is duplicated and must stay in sync with `rpc.ts`. See [OpenCode plugin documentation](https://opencode.ai/docs/build/plugins). No npm release is implied by the GitHub repository.
+Run `bun install` and `bun test`. The tests pack the package and import/render its shipped TUI entry outside the checkout. Keep `tsconfig.json` in the published files: raw TSX needs `jsx: preserve` and `jsxImportSource: @opentui/solid` rather than Bun's React default. Standalone OpenTUI rendering uses `@opentui/solid/preload`; OpenCode provides the TUI host. The Desktop entry is a standalone CommonJS file using host-provided modules; its RPC contract is duplicated and must stay in sync with `rpc.ts`. See [OpenCode plugin documentation](https://opencode.ai/docs/build/plugins). No npm release is implied by the GitHub repository.
 
 MIT licensed; see [LICENSE](LICENSE).
