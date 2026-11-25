@@ -3,6 +3,33 @@ import { mkdtemp, rm } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
 
+test("TUI shows compact mode labels and keeps click toggling", async () => {
+  const child = Bun.spawn([process.execPath, "--conditions=browser", "-e", `
+    import plugin from "./dist/tui.js";
+    import { testRender } from "@opentui/solid";
+    let slot;
+    let mode = "short";
+    const rpc = { read: async () => ({ mode }), toggle: async () => ({ mode: mode = mode === "short" ? "long" : "short" }), events: { on: () => () => {} } };
+    plugin.setup({
+      ui: { slot: value => { slot = value; } },
+      theme: { text: { muted: "#888888" } },
+      location: { directory: "/test" },
+      data: { location: { default: () => ({ directory: "/test" }) } },
+      client: { rpc: () => rpc },
+    });
+    const test = await testRender(() => slot.render({ sessionID: "session" }), { width: 40, height: 4 });
+    const flush = () => new Promise(resolve => setImmediate(resolve));
+    try {
+      await test.renderOnce(); await flush(); await test.renderOnce();
+      if (!test.captureCharFrame().includes("Ctx: S")) throw new Error("Missing short mode: " + test.captureCharFrame());
+      await test.mockMouse.click(2, 0, 0); await flush(); await test.renderOnce();
+      if (!test.captureCharFrame().includes("Ctx: L")) throw new Error("Missing long mode");
+    } finally { test.renderer.destroy(); }
+  `], { cwd: import.meta.dir, stdout: "pipe", stderr: "pipe" })
+  const errors = await new Response(child.stderr).text()
+  expect(await child.exited, errors).toBe(0)
+})
+
 test("Git consumers install the committed artifact without dependency preparation", async () => {
   const manifest = await Bun.file(join(import.meta.dir, "package.json")).json()
   for (const name of ["build", "prepare", "prepack", "preinstall", "install", "postinstall"]) {

@@ -28,7 +28,7 @@ Both options are optional. `fraction` is greater than zero and at most one; `min
 - `/context-mode auto`: clear the session override and use the model-dependent default.
 - `/context-mode`: refresh the mode without changing it.
 
-Click the indicator to toggle Short and Long; the override persists for the current session. Children do not inherit it. The indicator may show Unknown if the model or its limit is unavailable.
+The TUI indicator shows `Ctx: S` for Short, `Ctx: L` for Long, or `Ctx: ?` when the mode is unknown. Click it to toggle Short and Long; the override persists for the current session. Children do not inherit it. The mode may be unknown if the model or its limit is unavailable.
 
 **This is a soft post-request trigger, not a hard context or spending cap.** It uses the last completed step's reported input, output, reasoning and cache usage. Subsequent tool output, provider reporting differences, queue timing, retries, missing data, and fixed-context loop prevention can delay compaction. Already queued compactions cannot be cancelled by switching modes. Autonomous-run behavior needs more validation. Compaction itself may cost tokens.
 

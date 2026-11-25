@@ -52,7 +52,7 @@ export default Plugin.define({
           const timer = setInterval(refresh, 15000)
           onCleanup(() => { active = false; toggle = () => {}; clearInterval(timer); stop() })
         })
-        return <text fg={ctx.theme.text.muted} onMouseUp={(event) => { if (event.button === 0) { event.stopPropagation(); toggle() } }}>{props.sessionID ? `Context: ${mode() === "short" ? "Short" : mode() === "long" ? "Long" : "Unknown"}` : ""}</text>
+        return <text fg={ctx.theme.text.muted} onMouseUp={(event) => { if (event.button === 0) { event.stopPropagation(); toggle() } }}>{props.sessionID ? `Ctx: ${mode() === "short" ? "S" : mode() === "long" ? "L" : "?"}` : ""}</text>
       },
     })
   },

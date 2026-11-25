@@ -149,7 +149,7 @@ var tui_default = Plugin.define({
           });
           _$insert(_el$, (() => {
             var _c$ = _$memo(() => !!props.sessionID);
-            return () => _c$() ? `Context: ${mode() === "short" ? "Short" : mode() === "long" ? "Long" : "Unknown"}` : "";
+            return () => _c$() ? `Ctx: ${mode() === "short" ? "S" : mode() === "long" ? "L" : "?"}` : "";
           })());
           _$effect((_$p) => _$setProp(_el$, "fg", ctx.theme.text.muted, _$p));
           return _el$;
