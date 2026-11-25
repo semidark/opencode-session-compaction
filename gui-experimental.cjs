@@ -55,6 +55,7 @@ module.exports = {
     setup(ctx) {
       ctx.add(Slot, {
         at: "session.header",
+        order: -30,
         render: (props) => {
           const [mode, setMode] = createSignal("unknown")
           const [busy, setBusy] = createSignal(false)

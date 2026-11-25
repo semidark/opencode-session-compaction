@@ -50,8 +50,15 @@ function host() {
   module.exports.default.setup({ add: (_: any, item: any) => { contribution = item } })
   const label = contribution.render(props)
   const flush = async () => { await Promise.resolve(); await Promise.resolve() }
-  return { label, calls, toggles, listeners, timers, setSession, setActive, server, flush }
+  return { contribution, label, calls, toggles, listeners, timers, setSession, setActive, server, flush }
 }
+
+test("Desktop context occupies the first status slot", () => {
+  const h = host()
+  expect(h.contribution.at).toBe("session.header")
+  expect(h.contribution.order).toBe(-30)
+  expect(h.label.textContent).toBe("Context: Unknown")
+})
 
 test("Desktop status follows the active session, rejects stale reads, and recovers after errors", async () => {
   const h = host()
